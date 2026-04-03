@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vote
+  labels:
+    app: vote
+spec:
+  type: NodePort # Needs to be accessible to the outside world
+  ports:
+    - name: "vote-service"
+      port: 8080 # doesn't need to be the same as targetport - When someone wants to use the service they use it on 8080 which gets forwarded to 80
+      targetPort: 80 # should match the pod port the service is intended for
+      nodePort: 31000 # When the user sends a request to one of the ip's it goes to this port and will be forwarded to 8080 for vote service which will be forwarded to 80 for vote pod
+  selector:
+    app: vote
